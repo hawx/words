@@ -21,10 +21,11 @@ $ cd -
 ```
 
 You can now open words by visiting `http://words.dev/` in a web browser.
+Start typing, to save type `CTRL+S`.
 
 By default it will store your words in `~/Words`, to change this go to
 `http://words.dev/settings` and change "Words location" to the folder you
 want to use. You can also change the word target here from the default 750.
 
-[750]: 750words.com
-[pw]:  pow.cx
+[750]: http://750words.com
+[pw]:  http://pow.cx
