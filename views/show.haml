@@ -1,0 +1,31 @@
+!!!
+%html
+  %head
+    %title words
+    %link{:rel => 'stylesheet', :href => '/styles.css'}
+
+  %body
+  
+    %h1
+      - if @prev[:date] == Date.today
+        %a.prev{:href => '/'} &larr;
+      - else
+        %a.prev{:href => @prev[:url]} &larr;
+      
+      = @words[:date].strftime("%B %-d, %Y")
+      
+      - if @next[:date] == Date.today
+        %a.next{:href => '/'} &rarr;
+      - else
+        %a.next{:href => @next[:url]} &rarr;
+        
+      %a.home{:href => '/list'} ☰
+
+    - if @words[:date] > Date.today
+      .content.empty [the future hasn't been written yet]
+    - elsif @words[:text].empty?
+      .content.empty [this page left intentionally blank]
+    - else
+      .content= @words[:text]
+
+    .padding

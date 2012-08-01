@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title List
+    %link{:rel => 'stylesheet', :href => '/styles.css'}
+
+  %body
+
+    %h1 
+      Words
+      %a.settings{:href => '/settings'} &#9881;
+
+    %ul.list
+      - for word in @words
+        %li
+          %a{:href => word[:url]}
+            = word[:date].strftime("%B %-d, %Y")
+          %span.count= word[:word_str]

@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title words
+    %link{:rel => 'stylesheet', :href => 'styles.css'}
+
+  %body
+
+    %h1.editing
+      %a.prev{:href => @prev[:url]} &larr;
+      Today
+      %a.next{:href => @next[:url]} &rarr;
+      %a.home{:href => '/list'} ☰
+
+    .expandingArea
+      %pre
+        %span
+        %br
+      %textarea.mousetrap{:autofocus => "autofocus"}= @words[:raw]
+
+      %p#count 0 words
+
+    .padding
+
+  %script{:src => 'mousetrap.min.js'}
+  %script
+    var desiredWordCount = #{@target};
+  %script{:src => 'core.js'}
