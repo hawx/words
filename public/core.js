@@ -1,50 +1,23 @@
-function wordCount(s){
-    s = s.replace(/(^\s*)|(\s*$)/gi, "");
-    s = s.replace(/\n/gi, " ");
-    s = s.replace(/[ ]{2,}/gi, " ");
-
-    if (s == "") {
-        return 0;
-    }
-
-    return s.split(' ').length;
-}
-
-function updateWordCount() {
-    var area  = document.querySelector('textarea');
-    var count = document.querySelectorAll('#count')[0];
-    var words = wordCount(area.value);
-    var str;
-
-    if (words == 1) {
-        str = "1 word";
-    } else {
-        str = words + " words";
-    }
-
-    count.innerText = str;
-
-    if (words > desiredWordCount) {
-        count.className = 'passed';
-    } else {
-        count.className = '';
-    }
-}
+$(document).ready(function() {
+  $("#the_area").simplyCountable({
+    counter:        '#count',
+    countType:      'words',
+    wordSeperator:  ' ',
+    maxCount:       desiredWordCount - 1,
+    strictMax:      false,
+    countDirection: 'up',
+    safeClass:      '',
+    overClass:      'passed'
+  });
+});
 
 function makeExpandingArea(container) {
     var area  = container.querySelector('textarea');
     var span  = container.querySelector('span');
-    var ab    = true;
 
     if (area.addEventListener) {
         area.addEventListener('input', function() {
             span.textContent = area.value;
-            if (ab == true) {
-              updateWordCount();
-              ab = false;
-            } else {
-              ab = true;
-            }
         }, false);
         span.textContent = area.value;
     } else if (area.attachEvent) {
@@ -64,8 +37,6 @@ var l = areas.length;
 while (l--) {
     makeExpandingArea(areas[l]);
 }
-
-updateWordCount();
 
 function saveTheText() {
     var text = document.querySelector('textarea').value;

@@ -14,14 +14,16 @@
 
     .expandingArea
       %pre
-        %span
+        %span#the_span
         %br
-      %textarea.mousetrap{:autofocus => "autofocus"}= @words[:raw]
+      %textarea.mousetrap#the_area{:autofocus => "autofocus"}= @words[:raw]
 
-      %p#count 0 words
+      %p#count #{@words[:words]}
 
     .padding
 
+  %script{:src => 'jquery.min.js'}
+  %script{:src => 'jquery.simplyCountable.js'}
   %script{:src => 'mousetrap.min.js'}
   %script
     var desiredWordCount = #{@target};

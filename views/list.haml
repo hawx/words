@@ -6,9 +6,13 @@
 
   %body
 
-    %h1 
+    %h1
       Words
       %a.settings{:href => '/settings'} &#9881;
+
+    %p.total
+      Total:
+      = @words.map {|w| w[:words] }.inject(:+)
 
     %ul.list
       - for word in @words

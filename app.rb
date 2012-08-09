@@ -6,36 +6,36 @@ require 'fileutils'
 
 class Settings
   FILE = 'settings.yml'
-  
+
   def self.load
     unless File.exist?(FILE)
-      File.open(FILE, 'w') do |f| 
+      File.open(FILE, 'w') do |f|
         f.puts <<EOS
 location: #{File.expand_path('~/Words')}
 target: 750
 EOS
       end
     end
-  
+
     YAML.load File.read(FILE)
   end
-  
+
   def self.location
     load['location']
   end
-  
+
   def self.target
     load['target']
   end
-  
-  def self.write(params)  
+
+  def self.write(params)
     if params['location'] != Settings.location
       params['location'] = File.expand_path(params['location'])
       FileUtils.cp_r Settings.location, params['location']
     end
-    
+
     params['target'] = params['target'].to_i
-  
+
     File.open(FILE, 'w') do |f|
       f.write params.to_yaml
     end
@@ -76,7 +76,7 @@ class Words
     @location =~ /(\d{4})-(\d{2})-(\d{2})/
     Date.new($1.to_i, $2.to_i, $3.to_i)
   end
-  
+
   def words
     read.gsub(/(^\s*)|(\s*$)/i, '').
          gsub(/\n/i, ' ').
@@ -84,7 +84,7 @@ class Words
          split(' ').
          size
   end
-  
+
   def word_str
     if words == 1
       "1 word"
@@ -92,7 +92,7 @@ class Words
       words.to_s + ' words'
     end
   end
-  
+
   def rendered
     Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(read)
   end
@@ -115,9 +115,9 @@ get '/' do
   @words = Words.from_date(date).data
   @next  = Words.from_date(date.next_day).data
   @prev  = Words.from_date(date.prev_day).data
-  
+
   @target = Settings.target
-  
+
   haml :index
 end
 
@@ -141,7 +141,7 @@ get '/:date' do |date|
   @words = Words.from_date(date).data
   @next  = Words.from_date(date.next_day).data
   @prev  = Words.from_date(date.prev_day).data
-  
+
   haml :show
 end
 

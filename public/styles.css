@@ -107,6 +107,10 @@ textarea, pre {
     color: silver;
 }
 
+#count:after {
+  content: ' words';
+}
+
 #count.passed, #count.flash {
     color: hsl(100, 50%, 60%);
     text-decoration: underline;
