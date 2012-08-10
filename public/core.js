@@ -1,5 +1,10 @@
 $(document).ready(function() {
-  $("#the_area").simplyCountable({
+
+  var cont = $('#container'),
+      area = $('#the_area'),
+      span = $('#the_span');
+
+  area.simplyCountable({
     counter:        '#count',
     countType:      'words',
     wordSeperator:  ' ',
@@ -9,70 +14,54 @@ $(document).ready(function() {
     safeClass:      '',
     overClass:      'passed'
   });
-});
+      
+  area.on('input', function() {
+    span.html(area.val());
+  });
+  span.html(area.val());
+  
+  cont.addClass('active');
 
-function makeExpandingArea(container) {
-    var area  = container.querySelector('textarea');
-    var span  = container.querySelector('span');
-
-    if (area.addEventListener) {
-        area.addEventListener('input', function() {
-            span.textContent = area.value;
-        }, false);
-        span.textContent = area.value;
-    } else if (area.attachEvent) {
-        // IE8 compatibility
-        area.attachEvent('onpropertychange', function() {
-            span.innerText = area.value;
-        });
-        span.innerText = area.value;
-    }
-    // Enable extra CSS
-    container.className += ' active';
-}
-
-var areas = document.querySelectorAll('.expandingArea');
-var l = areas.length;
-
-while (l--) {
-    makeExpandingArea(areas[l]);
-}
-
-function saveTheText() {
-    var text = document.querySelector('textarea').value;
-
-    var http   = new XMLHttpRequest();
-    var url    = "/";
-    var params = "text=" + encodeURIComponent(text);
-
-    http.open("POST", url, true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.send(params);
-}
-
-function autosaveTheText() {
-    saveTheText();
+  function saveTheText(cb) {
+    $.ajax({
+      type: 'POST',
+      url:  '/save',
+      data: {
+        text: $('#the_area').val()
+      },
+      success: cb
+    });
+  }
+  
+  function autosaveTheText() {
+    saveTheText(function() {
+      showAlert('Autosaved');
+      setInterval(hideAlert, 1000);
+    });
     setInterval(autosaveTheText, 20 * 1000);
-}
+  }
+  
+  setInterval(autosaveTheText, 20 * 1000);
 
-autosaveTheText();
-
-function showAlert(text) {
-    var count = document.querySelector('#count');
-    count.innerText = text;
-    count.className = 'flash';
-}
-
-function hideAlert() {
-    var count = document.querySelector('#count');
-    count.className = '';
-    updateWordCount();
-}
-
-Mousetrap.bind('ctrl+s', function(e) {
-    saveTheText();
-    showAlert('Saved!');
-    setInterval(hideAlert, 3000);
-
+  function showAlert(text) {
+    var msg = $('#message'), count = $('#count');
+    msg.html(text);
+    count.hide();
+    msg.show();
+  }
+  
+  function hideAlert() {
+    var msg = $('#message'), count = $('#count');
+    msg.hide();
+    count.show();
+  }
+  
+  Mousetrap.bind('ctrl+s', function(e) {
+    saveTheText(function() {
+      showAlert('Saved!');
+      setInterval(hideAlert, 3000);
+    });
     return false;
+  });
+  
 });

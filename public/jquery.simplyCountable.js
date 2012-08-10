@@ -61,7 +61,7 @@
             ct = ct.substr(0,i) + options.thousandSeparator + ct.substr(i);
           }
         }
-        return prefix + ct;
+        return prefix + ct + ' words';
       }
       
       /* Calculates count for either words or characters */

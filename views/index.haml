@@ -12,18 +12,21 @@
       %a.next{:href => @next[:url]} &rarr;
       %a.home{:href => '/list'} ☰
 
-    .expandingArea
+    #container
       %pre
         %span#the_span
         %br
       %textarea.mousetrap#the_area{:autofocus => "autofocus"}= @words[:raw]
 
-      %p#count #{@words[:words]}
+      #meta
+        %span#count #{@words[:words]}
+        %span#message
 
     .padding
 
   %script{:src => 'jquery.min.js'}
   %script{:src => 'jquery.simplyCountable.js'}
+  %script{:src => 'jquery.caret.js'}
   %script{:src => 'mousetrap.min.js'}
   %script
     var desiredWordCount = #{@target};

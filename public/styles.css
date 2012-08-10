@@ -75,7 +75,7 @@ h1 {
 
 /* CONTENT -------------------------------------------------- */
 
-.expandingArea > textarea, .expandingArea > pre, .content {
+#container > textarea, #container > pre, .content {
   font: 23px/1.5em 'Akzidenz-Grotesk BQ';
 }
 
@@ -98,7 +98,7 @@ textarea, pre {
     height: 10em;
 }
 
-#count {
+#meta {
     font-size: 18px;
     font-family: 'Courier New';
     position: absolute;
@@ -107,26 +107,22 @@ textarea, pre {
     color: silver;
 }
 
-#count:after {
-  content: ' words';
-}
-
-#count.passed, #count.flash {
+#count.passed, #message {
     color: hsl(100, 50%, 60%);
     text-decoration: underline;
 }
 
 /* TEXTAREA ----------------------------------------------- */
 
-.expandingArea {
+#container {
     margin: 3em auto;
     position: relative;
     border: none;
     background: transparent;
 }
 
-.expandingArea > textarea,
-.expandingArea > pre {
+#container > textarea,
+#container > pre {
     padding: 0;
     background: transparent;
     /* Make the text soft-wrap */
@@ -134,7 +130,7 @@ textarea, pre {
     word-wrap: break-word;
 }
 
-.expandingArea > textarea {
+#container > textarea {
     /* The border-box box model is used to allow
      * padding whilst still keeping the overall width
      * at exactly that of the containing element.
@@ -148,7 +144,7 @@ textarea, pre {
     height: 100px;
 }
 
-.expandingArea.active > textarea {
+#container.active > textarea {
     /* Hide any scrollbars */
     overflow: hidden;
     position: absolute;
@@ -159,11 +155,11 @@ textarea, pre {
     resize: none;
 }
 
-.expandingArea > pre {
+#container > pre {
     display: none;
 }
 
-.expandingArea.active > pre {
+#container.active > pre {
     display: block;
     /* Hide the text; just using it for sizing */
     visibility: hidden;

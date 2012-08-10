@@ -136,7 +136,7 @@ get '/list' do
   haml :list
 end
 
-get '/:date' do |date|
+get %r{/(\d{4}-\d{2}-\d{2})} do |date|
   date = Date.parse(date)
   @words = Words.from_date(date).data
   @next  = Words.from_date(date.next_day).data
@@ -145,8 +145,9 @@ get '/:date' do |date|
   haml :show
 end
 
-post '/' do
+post '/save' do
   text = params[:text]
   file = Words.today
   file.write text
+  true
 end
