@@ -14,6 +14,7 @@ class Settings
         f.puts <<EOS
 location: #{File.expand_path('~/Words')}
 target: 750
+font: 23px/1.5em 'Akzidenz-Grotesk BQ', Helvetica, sans-serif
 EOS
       end
     end
@@ -146,8 +147,8 @@ end
 
 get '/style.css' do
   content_type 'text/css'
-  File.read(File.join(settings.public_folder, 'styles.css'))
-    .gsub('@@FONT@@', Settings.font)
+  t = File.read(File.join(settings.public_folder.to_s, 'styles.css'))
+  t.gsub('@@FONT@@', Settings.font)
 end
 
 
