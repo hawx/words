@@ -74,6 +74,10 @@ class Words
   end
 
   def write(text)
+    dir = File.dirname(@location)
+    unless File.exist?(dir)
+      FileUtils.mkdir(dir)
+    end
     File.open(@location, 'w') {|f| f.write(text) }
   end
 
@@ -129,6 +133,13 @@ get '/' do
   haml :index
 end
 
+post '/save' do
+  text = params[:text]
+  file = Words.today
+  file.write text
+  true
+end
+
 get '/settings' do
   @settings = Settings.load
   haml :settings
@@ -144,13 +155,11 @@ get '/list' do
   haml :list
 end
 
-
 get '/style.css' do
   content_type 'text/css'
   t = File.read(File.join(settings.public_folder.to_s, 'styles.css'))
   t.gsub('@@FONT@@', Settings.font)
 end
-
 
 get %r{/(\d{4}-\d{2}-\d{2})} do |date|
   date = Date.parse(date)
@@ -161,9 +170,3 @@ get %r{/(\d{4}-\d{2}-\d{2})} do |date|
   haml :show
 end
 
-post '/save' do
-  text = params[:text]
-  file = Words.today
-  file.write text
-  true
-end
