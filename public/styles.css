@@ -6,9 +6,11 @@ html, body {
 }
 
 body {
-    font: 23px/1.5em 'Akzidenz-Grotesk BQ';
-    width: 700px;
+    font: @@FONT@@;
+    max-width: 700px;
+    width: auto;
     margin: 0 auto;
+    padding: 1.5em;
     position: relative;
 }
 
@@ -28,9 +30,20 @@ h1 {
 
 .prev {
   position: absolute;
-  left: -4.5em;
+  left: -3.3em;
   width: 4em;
   text-align: right;
+}
+
+@media all and (max-width: 820px) {
+  .prev {
+    position: relative;
+    left: 0;
+  }
+
+  .home, .settings {
+    margin-right: 1em;
+  }
 }
 
 .next {
@@ -56,7 +69,7 @@ h1 {
 /* LIST ----------------------------------------------------- */
 
 .list {
-  padding: 0;
+  padding: 0 0 2em;
   list-style: none;
 }
 
@@ -76,11 +89,11 @@ h1 {
 /* CONTENT -------------------------------------------------- */
 
 #container > textarea, #container > pre, .content {
-  font: 23px/1.5em 'Akzidenz-Grotesk BQ';
+  font: @@FONT@@;
 }
 
 .content {
-    margin: 3em 0;
+  margin: 3em 0;
 }
 
 .content.empty {
@@ -88,86 +101,87 @@ h1 {
 }
 
 textarea, pre {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
 }
 
 .padding {
-    height: 10em;
+  height: 10em;
 }
 
 #meta {
-    font-size: 18px;
-    font-family: 'Courier New';
-    position: absolute;
-    bottom: -3em;
-    right: 0em;
-    color: silver;
+  font-size: 18px;
+  font-family: 'Courier New';
+  position: absolute;
+  bottom: -3em;
+  right: 0em;
+  color: silver;
 }
 
 #count.passed, #message {
-    color: hsl(100, 50%, 60%);
-    text-decoration: underline;
+  color: hsl(100, 50%, 60%);
+  text-decoration: underline;
 }
 
 /* TEXTAREA ----------------------------------------------- */
 
 #container {
-    margin: 3em auto;
-    position: relative;
-    border: none;
-    background: transparent;
+  margin: 3em auto;
+  position: relative;
+  border: none;
+  background: transparent;
 }
 
 #container > textarea,
 #container > pre {
-    padding: 0;
-    background: transparent;
-    /* Make the text soft-wrap */
-    white-space: pre-wrap;
-    word-wrap: break-word;
+  padding: 0;
+  background: transparent;
+  /* Make the text soft-wrap */
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 #container > textarea {
-    /* The border-box box model is used to allow
-     * padding whilst still keeping the overall width
-     * at exactly that of the containing element.
-     */
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
-    /* This height is used when JS is disabled */
-    height: 100px;
+  /* The border-box box model is used to allow
+   * padding whilst still keeping the overall width
+   * at exactly that of the containing element.
+   */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  /* This height is used when JS is disabled */
+  height: 100px;
 }
 
 #container.active > textarea {
-    /* Hide any scrollbars */
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    /* Remove WebKit user-resize widget */
-    resize: none;
+  /* Hide any scrollbars */
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* Remove WebKit user-resize widget */
+  resize: none;
 }
 
 #container > pre {
-    display: none;
+  display: none;
 }
 
 #container.active > pre {
-    display: block;
-    /* Hide the text; just using it for sizing */
-    visibility: hidden;
+  display: block;
+  /* Hide the text; just using it for sizing */
+  visibility: hidden;
 }
 
 /* FORMS --------------------------------------------- */
 
 form label, form input {
+  font: @@FONT@@;
   position: relative;
   display: block;
 }

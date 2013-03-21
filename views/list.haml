@@ -2,7 +2,7 @@
 %html
   %head
     %title List
-    %link{:rel => 'stylesheet', :href => '/styles.css'}
+    %link{:rel => 'stylesheet', :href => '/style.css'}
 
   %body
 
@@ -15,8 +15,13 @@
       = @words.map {|w| w[:words] }.inject(:+)
 
     %ul.list
-      - for word in @words
+      - for word in @words.reverse
         %li
-          %a{:href => word[:url]}
-            = word[:date].strftime("%B %-d, %Y")
+          - if word[:date] == Date.today
+            %a{:href => '/'} Today
+
+          - else
+            %a{:href => word[:url]}
+              = word[:date].strftime("%B %-d, %Y")
+
           %span.count= word[:word_str]

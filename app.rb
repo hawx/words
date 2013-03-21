@@ -4,6 +4,7 @@ require 'redcarpet'
 require 'yaml'
 require 'fileutils'
 
+
 class Settings
   FILE = 'settings.yml'
 
@@ -18,6 +19,10 @@ EOS
     end
 
     YAML.load File.read(FILE)
+  end
+
+  def self.font
+    load['font']
   end
 
   def self.location
@@ -43,7 +48,6 @@ EOS
 end
 
 class Words
-
   def self.list
     Dir["#{Settings.location}/*.txt"].map {|w| Words.new(w) }
   end
@@ -94,7 +98,10 @@ class Words
   end
 
   def rendered
-    Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(read)
+    Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML,
+      :fenced_code_blocks => true
+    ).render(read)
   end
 
   def data
@@ -135,6 +142,14 @@ get '/list' do
   @words = Words.list.map(&:data)
   haml :list
 end
+
+
+get '/style.css' do
+  content_type 'text/css'
+  File.read(File.join(settings.public_folder, 'styles.css'))
+    .gsub('@@FONT@@', Settings.font)
+end
+
 
 get %r{/(\d{4}-\d{2}-\d{2})} do |date|
   date = Date.parse(date)

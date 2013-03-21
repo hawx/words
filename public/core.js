@@ -35,10 +35,8 @@ $(document).ready(function() {
   
   function autosaveTheText() {
     saveTheText(function() {
-      showAlert('Autosaved');
-      setInterval(hideAlert, 1000);
+      console.log('autosaved');
     });
-    setInterval(autosaveTheText, 20 * 1000);
   }
   
   setInterval(autosaveTheText, 20 * 1000);
