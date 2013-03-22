@@ -3,7 +3,48 @@ require 'haml'
 require 'redcarpet'
 require 'yaml'
 require 'fileutils'
+require 'cal'
 
+
+module Cal
+  class Month
+    def to_s
+      date.strftime "%b %Y"
+    end
+  end
+
+  class Day
+
+    def words
+      Words.from_date(date)
+    end
+
+    # @return True if this day is _actually_ in the month, false otherwise.
+    def over?
+      date.month != calendar.month.number
+    end
+    
+    def future?
+      date > Date.today
+    end
+    
+    def passed?
+      words.words >= Settings.target
+    end
+    
+    def missed?
+      words.words == 0
+    end
+    
+    def classes
+      return "over"   if over?
+      return "today"  if today?
+      return "over"   if future?
+      return "passed" if passed?
+      return "missed" if missed?
+    end
+  end
+end
 
 class Settings
   FILE = 'settings.yml'
@@ -49,6 +90,16 @@ EOS
 end
 
 class Words
+  def self.calendars
+    oldest = self.list[0].date
+
+    (oldest..Date.today).to_a.map {|date| 
+      [date.year, date.month]
+    }.uniq.reverse.map {|y,m| 
+      Cal::MonthlyCalendar.new(y, m, :start_week_on => :monday) 
+    }
+  end
+
   def self.list
     Dir["#{Settings.location}/*.txt"].map {|w| Words.new(w) }
   end
@@ -109,18 +160,26 @@ class Words
     ).render(read)
   end
 
+  def url
+    if date.today?
+      "/"
+    else
+      "/#{date.to_s}"
+    end
+  end
+
   def data
     {
       :date  => date,
       :raw   => read,
       :text  => rendered,
-      :url   => "/#{date.to_s}",
+      :url   => url,
       :words => words,
       :word_str => word_str
     }
   end
-
 end
+
 
 get '/' do
   date = Date.today

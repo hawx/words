@@ -10,18 +10,20 @@
       Words
       %a.settings{:href => '/settings'} &#9881;
 
-    %p.total
-      Total:
-      = @words.map {|w| w[:words] }.inject(:+)
+    - for calendar in Words.calendars
+      %table.calendar
+        %thead
+          %tr.month
+            %td= calendar.month.to_s
+          %tr.days
+            - calendar.day_names.each do |name|
+              %td= name.to_s[0]
+              
+        %tbody
+          - calendar.weeks.each do |week|
+            %tr
+              - week.each do |day|
+                %td{:class => day.classes}
+                  %a{:href => day.words.url}= day.number
 
-    %ul.list
-      - for word in @words.reverse
-        %li
-          - if word[:date] == Date.today
-            %a{:href => '/'} Today
-
-          - else
-            %a{:href => word[:url]}
-              = word[:date].strftime("%B %-d, %Y")
-
-          %span.count= word[:word_str]
+    .padding
