@@ -9,21 +9,25 @@
     %h1
       Words
       %a.settings{:href => '/settings'} &#9881;
-
-    - for calendar in Words.calendars
-      %table.calendar
-        %thead
-          %tr.month
-            %td= calendar.month.to_s
-          %tr.days
-            - calendar.day_names.each do |name|
-              %td= name.to_s[0]
-              
-        %tbody
-          - calendar.weeks.each do |week|
-            %tr
-              - week.each do |day|
-                %td{:class => day.classes}
-                  %a{:href => day.words.url}= day.number
+    
+    - Words.calendars.each do |year, calendars|
+      %ul.calendar_container
+        %h1= year
+        - for calendar in calendars
+          %li
+            %table.calendar
+              %thead
+                %tr.month
+                  %td= calendar.month.to_s
+                %tr.days
+                  - calendar.day_names.each do |name|
+                    %td= name.to_s[0]
+                    
+              %tbody
+                - calendar.weeks.each do |week|
+                  %tr
+                    - week.each do |day|
+                      %td{:class => day.classes}
+                        %a{:href => day.words.url}= day.number
 
     .padding

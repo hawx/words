@@ -219,11 +219,24 @@ form input[type=submit]:hover {
 
 /* CALENDAR --------------------------------------------- */
 
+.calendar_container {
+  display: block;
+  height:  440px;
+  width: 3276px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.calendar_container li {
+  float: left;
+}
+
 .calendar {
   width: 368px;
   border: 2px solid black;
   border-spacing: 0;
-  margin-bottom: 3em;
+  margin-bottom: 30px;
+  margin-right: 30px;
 }
 
 .calendar thead {

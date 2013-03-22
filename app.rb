@@ -9,7 +9,7 @@ require 'cal'
 module Cal
   class Month
     def to_s
-      date.strftime "%b %Y"
+      date.strftime "%b"
     end
   end
 
@@ -92,11 +92,13 @@ end
 class Words
   def self.calendars
     oldest = self.list[0].date
-
+    
     (oldest..Date.today).to_a.map {|date| 
       [date.year, date.month]
-    }.uniq.reverse.map {|y,m| 
+    }.uniq.map {|y,m| 
       Cal::MonthlyCalendar.new(y, m, :start_week_on => :monday) 
+    }.group_by {|cal|
+      cal.year
     }
   end
 
