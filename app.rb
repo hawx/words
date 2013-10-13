@@ -23,19 +23,19 @@ module Cal
     def over?
       date.month != calendar.month.number
     end
-    
+
     def future?
       date > Date.today
     end
-    
+
     def passed?
       words.words >= Settings.target
     end
-    
+
     def missed?
       words.words == 0
     end
-    
+
     def classes
       return "over"   if over?
       return "today"  if today?
@@ -47,7 +47,7 @@ module Cal
 end
 
 class Settings
-  FILE = 'settings.yml'
+  FILE = File.expand_path('~/.words.yml')
 
   def self.load
     unless File.exist?(FILE)
@@ -55,7 +55,7 @@ class Settings
         f.puts <<EOS
 location: #{File.expand_path('~/Words')}
 target: 750
-font: 23px/1.5em 'Akzidenz-Grotesk BQ', Helvetica, sans-serif
+font: 23px/1.5em Helvetica, sans-serif
 EOS
       end
     end
@@ -92,11 +92,11 @@ end
 class Words
   def self.calendars
     oldest = self.list[0].date
-    
-    (oldest..Date.today).to_a.map {|date| 
+
+    (oldest..Date.today).to_a.map {|date|
       [date.year, date.month]
-    }.uniq.map {|y,m| 
-      Cal::MonthlyCalendar.new(y, m, :start_week_on => :monday) 
+    }.uniq.map {|y,m|
+      Cal::MonthlyCalendar.new(y, m, :start_week_on => :monday)
     }.group_by {|cal|
       cal.year
     }
@@ -230,4 +230,3 @@ get %r{/(\d{4}-\d{2}-\d{2})} do |date|
 
   haml :show
 end
-
