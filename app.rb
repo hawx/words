@@ -103,7 +103,7 @@ class Words
   end
 
   def self.list
-    Dir["#{Settings.location}/*.txt"].map {|w| Words.new(w) }
+    Dir["#{Settings.location}/*.txt"].map {|w| Words.new(w) }.sort_by(&:date)
   end
 
   def self.today
@@ -140,11 +140,14 @@ class Words
   end
 
   def words
-    read.gsub(/(^\s*)|(\s*$)/i, '').
-         gsub(/\n/i, ' ').
-         gsub(/[ ]{2,}/i, ' ').
-         split(' ').
-         size
+    read.gsub(/(^\s*)|(\s*$)/i, '')
+      .gsub(/\n/i, ' ')
+      .gsub(/[ ]{2,}/i, ' ')
+      .split(' ')
+      .size
+  rescue
+    warn "Error reading: #{@location}"
+    0
   end
 
   def word_str
