@@ -75,6 +75,8 @@ h1 {
 
 .list a {
   color: black;
+  display: inline-block;
+  width: 230px;
 }
 
 .list a:hover {

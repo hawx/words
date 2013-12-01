@@ -102,6 +102,10 @@ class Words
     }
   end
 
+  def self.each(&block)
+    list.reverse.each(&block)
+  end
+
   def self.list
     Dir["#{Settings.location}/*.txt"].map {|w| Words.new(w) }.sort_by(&:date)
   end
