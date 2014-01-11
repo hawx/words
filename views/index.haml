@@ -2,21 +2,18 @@
 %html
   %head
     %title words
-    %link{:rel => 'stylesheet', :href => '/style.css'}
+    %link{rel: 'stylesheet', href: '/style.css'}
 
   %body
 
     %h1.editing
-      %a.prev{:href => @prev[:url]} &larr;
+      %a.prev{href: @prev[:url]} &larr;
       Today
-      %a.next{:href => @next[:url]} &rarr;
-      %a.home{:href => '/list'} ☰
+      %a.next{href: @next[:url]} &rarr;
+      %a.home{href: '/list'} ☰
 
     #container
-      %pre
-        %span#the_span
-        %br
-      %textarea.mousetrap#the_area{:autofocus => "autofocus"}= @words[:raw]
+      %textarea.mousetrap{autofocus: 'autofocus'}= @words[:raw]
 
       #meta
         %span#count #{@words[:words]}
@@ -24,10 +21,11 @@
 
     .padding
 
-  %script{:src => 'jquery.min.js'}
-  %script{:src => 'jquery.simplyCountable.js'}
-  %script{:src => 'jquery.caret.js'}
-  %script{:src => 'mousetrap.min.js'}
+  %script{src: '/jquery.min.js'}
+  %script{src: '/jquery.simplyCountable.js'}
+  %script{src: '/jquery.caret.js'}
+  %script{src: '/jquery.autosize.min.js'}
+  %script{src: '/mousetrap.min.js'}
   %script
     var desiredWordCount = #{@target};
-  %script{:src => 'core.js'}
+  %script{src: '/core.js'}

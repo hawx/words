@@ -1,65 +1,70 @@
-$(document).ready(function() {
+var Alert = function(msg, count) {
+    var show = function(text) {
+        msg.html(text);
+        count.hide();
+        msg.show();
+    }
 
-  var cont = $('#container'),
-      area = $('#the_area'),
-      span = $('#the_span');
+    var hide = function() {
+        msg.hide();
+        count.show();
+    }
 
-  area.simplyCountable({
-    counter:        '#count',
-    countType:      'words',
-    wordSeperator:  ' ',
-    maxCount:       desiredWordCount - 1,
-    strictMax:      false,
-    countDirection: 'up',
-    safeClass:      '',
-    overClass:      'passed'
-  });
-      
-  area.on('input', function() {
-    span.html(area.val());
-  });
-  span.html(area.val());
-  
-  cont.addClass('active');
+    return {
+        display: function(text, timeout) {
+            show(text);
+            setInterval(hide, timeout);
+        }
+    }
+}
 
-  function saveTheText(cb) {
-    $.ajax({
-      type: 'POST',
-      url:  '/save',
-      data: {
-        text: $('#the_area').val()
-      },
-      success: cb
+var Textarea = function(el) {
+    el.autosize({
+        'callback': function() {
+            var pos = el.caret('pos');
+            var len = el.val().length;
+
+            if (pos === len) {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        }
     });
-  }
-  
-  function autosaveTheText() {
-    saveTheText(function() {
-      console.log('autosaved');
-    });
-  }
-  
-  setInterval(autosaveTheText, 20 * 1000);
 
-  function showAlert(text) {
-    var msg = $('#message'), count = $('#count');
-    msg.html(text);
-    count.hide();
-    msg.show();
-  }
-  
-  function hideAlert() {
-    var msg = $('#message'), count = $('#count');
-    msg.hide();
-    count.show();
-  }
-  
-  Mousetrap.bind('ctrl+s', function(e) {
-    saveTheText(function() {
-      showAlert('Saved!');
-      setInterval(hideAlert, 3000);
+    el.simplyCountable({
+        counter:        '#count',
+        countType:      'words',
+        wordSeperator:  ' ',
+        maxCount:       desiredWordCount - 1,
+        strictMax:      false,
+        countDirection: 'up',
+        safeClass:      '',
+        overClass:      'passed'
     });
-    return false;
-  });
-  
+
+    return {
+        save: function(callback) {
+            $.ajax({
+                type: 'POST',
+                url:  '/save',
+                data: {text: el.val()},
+                success: callback
+            });
+        }
+    }
+}
+
+$(function() {
+    var textarea = new Textarea($('textarea'));
+    var alert = new Alert($('#message'), $('#count'));
+
+    Mousetrap.bind('ctrl+s', function(e) {
+        textarea.save(alert.display('Saved!', 3000))
+        return false;
+    });
+
+    var autosave = function() {
+        textarea.save(alert.display('Autosaved!', 1500));
+    }
+
+    setInterval(autosave, 10 * 1000);
 });

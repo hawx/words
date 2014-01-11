@@ -14,7 +14,6 @@ module Cal
   end
 
   class Day
-
     def words
       Words.from_date(date)
     end
